@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon dice</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.3/dist/tailwind.min.css" rel="stylesheet">
+    <script src="/scripts/sdLogic.js"></script>
+</head>
+<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center">
+    <h1 class="text-4xl font-bold text-white mb-8">Simon dice</h1>
+    <div class="bg-gray-800 rounded-lg shadow-lg p-8 flex flex-col items-center">
+        <h2 class="text-lg text-gray-200 mb-4">Memoriza y repite la secuencia de colores</h2>
+        <div class="flex gap-8 mb-4">
+            <p id="Tiempo" class="text-white">Tiempo</p>
+            <p id="Aciertos" class="text-white">Aciertos</p>
+        </div>
+        <button id="botonComenzar" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 transition">Comenzar</button>
+        <div class="grid grid-cols-2 gap-4">
+            <button id="botonVerde" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded transition">Verde</button>
+            <button id="botonRojo" class="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded transition">Rojo</button>
+            <button id="botonAmarillo" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-4 px-8 rounded transition">Amarillo</button>
+            <button id="botonAzul" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded transition">Azul</button>
+        </div>
+    </div>
+</body>
+</html>
