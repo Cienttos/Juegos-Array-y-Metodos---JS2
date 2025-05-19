@@ -1,3 +1,24 @@
+/* === GENERAL === */
+body {
+  background: radial-gradient(ellipse at 50% 30%, #181c2b 60%, #0a0c17 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Share Tech Mono', 'Orbitron', Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* === CONTAINER === */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === SIMON PANEL === */
 .simon-panel {
   position: relative;
   width: 340px;
@@ -20,76 +41,75 @@
   z-index: 2;
   outline: none;
   opacity: 0.97;
+  /* Forma de "quesito" usando clip-path */
   transition:
     filter 0.3s cubic-bezier(.4,2,.6,1),
     box-shadow 0.3s cubic-bezier(.4,2,.6,1),
     background 0.3s cubic-bezier(.4,2,.6,1);
-  /* Para que el hover y led-on respeten la forma, se repite clip-path y border-radius en los estados */
 }
 
 /* Verde: arriba izquierda */
 .panel-verde {
   top: 0; left: 0;
   background: radial-gradient(circle at 70% 70%, #4fff4f 60%, #22c55e 100%);
-  clip-path: path("M 170 170 L 0 170 L 0 0 A 170 170 0 0 1 170 0 Z");
-  /* Cuarto de círculo arriba izquierda */
+  clip-path: polygon(100% 100%, 0 100%, 0 0, 100% 0);
+  border-top-left-radius: 100% 100%;
   box-shadow: 0 0 24px 4px #4fff4f99 inset;
 }
 .panel-verde:hover,
 .panel-verde.led-on,
 .panel-verde:active {
+  filter: brightness(1.7) saturate(2.2) drop-shadow(0 0 32px #4fff4f);
+  box-shadow: 0 0 64px 24px #4fff4f, 0 0 48px 16px #4fff4f inset;
   background: radial-gradient(circle at 60% 60%, #baffba 80%, #4fff4f 100%);
-  filter: brightness(1.5) saturate(2) drop-shadow(0 0 32px #4fff4f);
-  box-shadow: 0 0 48px 16px #4fff4f, 0 0 32px 8px #4fff4f inset;
-  clip-path: path("M 170 170 L 0 170 L 0 0 A 170 170 0 0 1 170 0 Z");
 }
 
 /* Rojo: arriba derecha */
 .panel-rojo {
   top: 0; right: 0;
   background: radial-gradient(circle at 30% 70%, #ff4f4f 60%, #ef4444 100%);
-  clip-path: path("M 170 170 L 170 0 L 340 0 A 170 170 0 0 1 340 170 Z");
+  clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+  border-top-right-radius: 100% 100%;
   box-shadow: 0 0 24px 4px #ff4f4f99 inset;
 }
 .panel-rojo:hover,
 .panel-rojo.led-on,
 .panel-rojo:active {
+  filter: brightness(1.7) saturate(2.2) drop-shadow(0 0 32px #ff4f4f);
+  box-shadow: 0 0 64px 24px #ff4f4f, 0 0 48px 16px #ff4f4f inset;
   background: radial-gradient(circle at 40% 60%, #ffcccc 80%, #ff4f4f 100%);
-  filter: brightness(1.5) saturate(2) drop-shadow(0 0 32px #ff4f4f);
-  box-shadow: 0 0 48px 16px #ff4f4f, 0 0 32px 8px #ff4f4f inset;
-  clip-path: path("M 170 170 L 170 0 L 340 0 A 170 170 0 0 1 340 170 Z");
 }
 
 /* Amarillo: abajo izquierda */
 .panel-amarillo {
   bottom: 0; left: 0;
   background: radial-gradient(circle at 70% 30%, #fff94f 60%, #facc15 100%);
-  clip-path: path("M 170 170 L 0 170 L 0 340 A 170 170 0 0 1 170 340 Z");
+  clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+  border-bottom-left-radius: 100% 100%;
   box-shadow: 0 0 24px 4px #fff94f99 inset;
 }
 .panel-amarillo:hover,
 .panel-amarillo.led-on,
 .panel-amarillo:active {
+  filter: brightness(1.7) saturate(2.2) drop-shadow(0 0 32px #fff94f);
+  box-shadow: 0 0 64px 24px #fff94f, 0 0 48px 16px #fff94f inset;
   background: radial-gradient(circle at 60% 40%, #ffffcc 80%, #fff94f 100%);
-  filter: brightness(1.5) saturate(2) drop-shadow(0 0 32px #fff94f);
-  box-shadow: 0 0 48px 16px #fff94f, 0 0 32px 8px #fff94f inset;
-  clip-path: path("M 170 170 L 0 170 L 0 340 A 170 170 0 0 1 170 340 Z");
 }
 
 /* Azul: abajo derecha */
 .panel-azul {
   bottom: 0; right: 0;
   background: radial-gradient(circle at 30% 30%, #4fdfff 60%, #3b82f6 100%);
-  clip-path: path("M 170 170 L 170 340 L 340 340 A 170 170 0 0 1 340 170 Z");
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  border-bottom-right-radius: 100% 100%;
   box-shadow: 0 0 24px 4px #4fdfff99 inset;
 }
 .panel-azul:hover,
 .panel-azul.led-on,
 .panel-azul:active {
+  filter: brightness(1.7) saturate(2.2) drop-shadow(0 0 32px #4fdfff);
+  box-shadow: 0 0 64px 24px #4fdfff, 0 0 48px 16px #4fdfff inset;
   background: radial-gradient(circle at 40% 40%, #ccffff 80%, #4fdfff 100%);
-  filter: brightness(1.5) saturate(2) drop-shadow(0 0 32px #4fdfff);
-  box-shadow: 0 0 48px 16px #4fdfff, 0 0 32px 8px #4fdfff inset;
-  clip-path: path("M 170 170 L 170 340 L 340 340 A 170 170 0 0 1 340 170 Z");
 }
 
 /* === BOTÓN CENTRAL === */
@@ -97,13 +117,13 @@
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: linear-gradient(145deg, #232946 80%, #393e6e 100%);
   color: #00f2ff;
   font-family: 'Orbitron', Arial, sans-serif;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: bold;
   border: 6px solid #00f2ff;
   box-shadow: 0 0 32px #00f2ff44, 0 0 0 2px #00f2ff33;
@@ -126,6 +146,48 @@
 .panel-central:hover {
   background: linear-gradient(145deg, #2563eb 80%, #232946 100%);
   color: #fff;
-  transform: scale(1.09);
+  transform: scale(1.07);
   border-color: #fff;
+}
+.panel-central .aciertos {
+  font-size: 1.1rem;
+  color: #00f2ff;
+  margin-bottom: 0.2em;
+  text-shadow: 0 0 8px #00f2ffcc, 0 2px 8px #0008;
+}
+.panel-central .cantidad {
+  font-size: 2.1rem;
+  color: #fff;
+  margin-bottom: 0.2em;
+  text-shadow: 0 0 12px #00f2ffcc, 0 2px 8px #0008;
+}
+.panel-central .proceso {
+  font-size: 1.2rem;
+  color: #00f2ff;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #00f2ffcc, 0 2px 8px #0008;
+  animation: procesoDots 1.2s infinite steps(3);
+}
+@keyframes procesoDots {
+  0% { opacity: 1; }
+  33% { opacity: 0.7; }
+  66% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 500px) {
+  .simon-panel {
+    width: 220px;
+    height: 220px;
+  }
+  .panel-central {
+    width: 90px;
+    height: 90px;
+    font-size: 1rem;
+  }
+  .panel-boton {
+    width: 48%;
+    height: 48%;
+  }
 }
