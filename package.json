@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "3juegos": "file:",
     "express": "^5.1.0"
   }
 }
