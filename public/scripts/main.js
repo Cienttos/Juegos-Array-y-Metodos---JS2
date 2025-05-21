@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         key: "simon",
         name: "Simon Says",
         desc: "Repeat the color sequence. Memory challenge!",
-        url: "/pages/sd.html"
+        url: "/pages/game1.html"
       }
     ],
     pvp: [

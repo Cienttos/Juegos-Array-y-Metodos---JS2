@@ -6,24 +6,34 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser);
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+const scoresGame1 = [];
+const scoresGame2 = [];
+const scoresGame3 = [];
+
+app.get('/data/:game', (req, res) => {
+  const { game } = req.params;
+  if (game === 'game1') return res.json(scoresGame1);
+  if (game === 'game2') return res.json(scoresGame2);
+  if (game === 'game3') return res.json(scoresGame3);
+  res.status(404).json({ error: 'Juego no encontrado' });
 });
 
-app.post('/select-mode', (req, res) => {
-  const data = req.body;
-  console.log('🕹️ Game Mode Selected:', data);
-
-  // Guardar los datos en archivo o memoria temporal
-  // Aquí por ahora solo redireccionamos según el modo
-  if (data.mode === 'vsIA') {
-    // Redirigir a selección de juego para 1 jugador
-    res.redirect('/pages/game1.html'); // Podés cambiarlo después
-  } else if (data.mode === 'vs1') {
-    res.redirect('/pages/game2.html');
-  } else {
-    res.redirect('/');
+app.post('/data/:game', (req, res) => {
+  const { game } = req.params;
+  const { nickname, score } = req.body;
+  if (!nickname || !score) {
+    return res.status(400).json({ error: 'Faltan datos' });
   }
+  const entry = { nickname, score: Number(score) };
+  if (game === 'game1') scoresGame1.push(entry);
+  else if (game === 'game2') scoresGame2.push(entry);
+  else if (game === 'game3') scoresGame3.push(entry);
+  else return res.status(404).json({ error: 'Juego no encontrado' });
+  res.json({ success: true });
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(3000, () => {
