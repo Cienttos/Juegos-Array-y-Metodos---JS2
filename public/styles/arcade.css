@@ -1,0 +1,467 @@
+/* Fuente Retro */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+/* Variables */
+:root {
+  --neon-green: #0bff01;
+  --neon-green-glow: 0 0 10px #0bff01, 0 0 20px #0bff01, 0 0 30px #0bff01;
+  --cabinet-dark: #111;
+  --cabinet-border: #333;
+  --screen-bg: rgba(0, 0, 0, 0.92);
+  --screen-scan-line: rgba(150, 255, 150, 0.08);
+}
+
+/* Reset y base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  font-family: "Press Start 2P", monospace;
+  color: var(--neon-green);
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Efecto scanline */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--screen-scan-line) 0px,
+    var(--screen-scan-line) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+/* Gabinete Arcade */
+.arcade-cabinet {
+  width: 95vw;
+  max-width: 800px;
+  height: 92vh;
+  max-height: 900px;
+  background: var(--cabinet-dark);
+  border: 5px solid var(--cabinet-border);
+  border-radius: 14px 14px 30px 30px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 255, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Header */
+.arcade-header {
+  min-height: 60px;
+  background: linear-gradient(45deg, #111 0%, #222 100%);
+  border-bottom: 5px solid var(--cabinet-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.arcade-logo {
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--neon-green);
+  text-shadow: var(--neon-green-glow);
+  letter-spacing: 5px;
+  animation: neonPulse 1.5s infinite alternate;
+  transform: perspective(400px) rotateX(10deg);
+}
+
+/* Pantalla */
+.arcade-screen {
+  flex: 1 1 0;
+  background: var(--screen-bg);
+  border: 8px solid #333;
+  border-radius: 8px;
+  margin: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 255, 0, 0.09);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenido centrado */
+.screen-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  padding: 18px 10px 10px 10px;
+}
+
+/* Scanline y CRT efecto */
+.screen-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--screen-scan-line) 0px,
+    var(--screen-scan-line) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+.screen-content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 30, 0, 0.18) 90%,
+    rgba(0, 50, 0, 0.28) 100%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Botón Atrás */
+.back-btn {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: transparent;
+  border: 3px solid var(--neon-green);
+  color: var(--neon-green);
+  font-family: inherit;
+  font-size: 1.2rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-shadow: var(--neon-green-glow);
+  box-shadow: 0 0 5px var(--neon-green);
+  transition: all 0.3s;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+}
+.back-btn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.back-btn:hover {
+  background: rgba(11, 255, 1, 0.18);
+  transform: scale(1.08);
+}
+.back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Animación de aparición/desaparición para los botones de modo */
+.mode-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; /* <-- Esto centra vertical y horizontal */
+  gap: 40px;
+  width: 100%;
+  min-height: 140px;
+  margin-bottom: 18px;
+  z-index: 2;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 0.5s, transform 0.5s;
+}
+.mode-selection.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-40px);
+}
+.mode-selection.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mode-card {
+  width: 180px;
+  height: 120px;
+  background: rgba(0, 40, 0, 0.6);
+  border: 4px solid var(--neon-green);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.4, 2, 0.6, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 2, 0.6, 1), border-color 0.3s,
+    background 0.3s, opacity 0.4s;
+  box-shadow: 0 0 15px rgba(11, 255, 1, 0.25);
+  position: relative;
+  overflow: hidden;
+  font-size: 1rem;
+  outline: none;
+  opacity: 0;
+  transform: translateY(40px); /* Solo translateY para animar desde abajo */
+  animation: modeCardFadeIn 0.6s forwards;
+  animation-fill-mode: forwards;
+}
+.mode-selection.show .mode-card {
+  animation: modeCardFadeIn 0.6s forwards;
+}
+.mode-selection.hide .mode-card {
+  animation: modeCardFadeOut 0.5s forwards;
+}
+.mode-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.mode-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+@keyframes modeCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes modeCardFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+.mode-card:hover,
+.mode-card:focus {
+  transform: scale(1.08);
+  box-shadow: 0 0 24px #0bff01, 0 0 40px #0bff01;
+  border-color: #fff;
+  background: rgba(11, 255, 1, 0.13);
+  z-index: 2;
+}
+
+.mode-label {
+  font-size: 2rem;         /* Más grande para PvP/PvE */
+  margin-bottom: 4px;
+  text-shadow: var(--neon-green-glow);
+  letter-spacing: 2px;
+  line-height: 1.1;
+}
+
+.mode-players {
+  font-size: 0.8rem;
+  color: var(--neon-green);
+  opacity: 0.8;
+  margin-bottom: 2px;
+  letter-spacing: 1px;
+}
+
+.mode-number {
+  font-size: 1rem;         /* Más pequeño para el número */
+  color: #fff;
+  text-shadow: 0 0 8px var(--neon-green);
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+/* Separador neón */
+.neon-hr {
+  width: 80%;
+  height: 3px;
+  margin: 30px 0;
+  background: var(--neon-green);
+  border: none;
+  box-shadow: var(--neon-green-glow);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.neon-hr.visible {
+  opacity: 1;
+}
+
+/* Selección de Juegos */
+.game-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s, transform 0.5s;
+  padding-bottom: 10px;
+  z-index: 2;
+}
+.game-selection.visible,
+.game-selection.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.game-selection::-webkit-scrollbar,
+.game-selection::-webkit-scrollbar-thumb,
+.game-selection::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* Tarjeta de juego */
+.game-card {
+  background: rgba(0, 40, 0, 0.6);
+  border: 3px solid var(--neon-green);
+  border-radius: 10px;
+  padding: 1.2rem 1rem;
+  min-width: 120px;
+  cursor: pointer;
+  text-align: center;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s,
+    background 0.2s;
+  color: var(--neon-green);
+  text-shadow: 0 0 6px var(--neon-green);
+  font-size: 1rem;
+  outline: none;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: cardFadeIn 0.5s forwards;
+}
+.game-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.game-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.game-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.game-card:hover,
+.game-card:focus {
+  box-shadow: 0 0 16px #0bff01;
+  transform: scale(1.03);
+  background: #111;
+  border-color: #fff;
+}
+
+.game-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: var(--neon-green);
+}
+
+.game-desc {
+  font-size: 0.8rem;
+  color: var(--neon-green);
+  opacity: 0.85;
+}
+
+/* Controles de arcade (decorativo) */
+.arcade-controls {
+  height: 10%;
+  background: linear-gradient(to bottom, #222, #111);
+  border-top: 5px solid var(--cabinet-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Utilidades */
+.hidden {
+  display: none !important;
+}
+
+/* Animaciones */
+@keyframes neonPulse {
+  from {
+    opacity: 0.8;
+    text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green),
+      0 0 15px var(--neon-green);
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green),
+      0 0 30px var(--neon-green), 0 0 40px var(--neon-green);
+  }
+}
+
+/* Responsive: achica fuentes y paddings en pantallas chicas */
+@media (max-width: 600px) {
+  .arcade-logo {
+    font-size: 1.2rem;
+  }
+  .mode-card {
+    width: 120px;
+    height: 120px;
+    font-size: 0.7rem;
+    padding: 0.7rem 0.5rem;
+  }
+  .mode-label {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+  }
+  .game-card {
+    font-size: 0.7rem;
+    padding: 0.7rem 0.5rem;
+    min-width: 90px;
+    max-width: 95vw;
+  }
+  .game-title {
+    font-size: 0.9rem;
+  }
+  .arcade-header {
+    min-height: 36px;
+  }
+  .arcade-screen {
+    margin: 6px;
+    border-width: 4px;
+  }
+}
