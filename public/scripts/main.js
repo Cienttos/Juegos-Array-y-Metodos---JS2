@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
           key: "game2",
           name: "Tic Tac Toe",
           desc: "Get three in a row before the computer.",
-          url: "/pages/game2.html",
+          url: "/pages/game2.html?mode=pve",
         },
         {
           key: "game3",
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
           key: "game2",
           name: "Tic Tac Toe",
           desc: "Play against a friend. Three in a row wins!",
-          url: "/pages/game2.html",
+          url: "/pages/game2.html?mode=pvp",
         },
         {
           key: "game3",
