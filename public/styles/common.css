@@ -1,0 +1,206 @@
+/* Fuente Retro */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+/* Variables */
+:root {
+  --neon-green: #0bff01;
+  --neon-green-glow: 0 0 10px #0bff01, 0 0 20px #0bff01, 0 0 30px #0bff01;
+  --cabinet-dark: #111;
+  --cabinet-border: #333;
+  --screen-bg: rgba(0, 0, 0, 0.92);
+  --screen-scan-line: rgba(150, 255, 150, 0.08);
+}
+
+/* Reset y base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  font-family: "Press Start 2P", monospace;
+  color: var(--neon-green);
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Efecto scanline */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--screen-scan-line) 0px,
+    var(--screen-scan-line) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+/* Gabinete Arcade */
+.arcade-cabinet {
+  width: 95vw;
+  max-width: 800px;
+  height: 92vh;
+  max-height: 900px;
+  background: var(--cabinet-dark);
+  border: 5px solid var(--cabinet-border);
+  border-radius: 14px 14px 30px 30px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 255, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+
+/* Pantalla */
+.arcade-screen {
+  flex: 1 1 0;
+  background: var(--screen-bg);
+  border: 8px solid #333;
+  border-radius: 8px;
+  margin: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 255, 0, 0.09);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenido centrado */
+.screen-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  padding: 18px 10px 10px 10px;
+}
+
+/* Scanline y CRT efecto */
+.screen-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--screen-scan-line) 0px,
+    var(--screen-scan-line) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+.screen-content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 30, 0, 0.18) 90%,
+    rgba(0, 50, 0, 0.28) 100%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Botón Atrás */
+
+
+
+/* Controles de arcade (decorativo) */
+.arcade-controls {
+  height: 10%;
+  background: linear-gradient(to bottom, #222, #111);
+  border-top: 5px solid var(--cabinet-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.arcade-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #111;
+  padding: 24px 0 12px 0;
+}
+
+.arcade-logo {
+  font-family: "Press Start 2P", monospace;
+  font-size: 2.5rem;
+  letter-spacing: 0.25em;
+  user-select: none;
+  display: inline-block;
+}
+
+.arcade-logo span {
+  color: #0bff01;
+  opacity: 0.35;
+  text-shadow: 0 0 2px #0bff01, 0 0 6px #111;
+  transition: color 0.25s, opacity 0.25s, text-shadow 0.25s;
+  filter: brightness(0.7);
+  display: inline-block;
+}
+
+.arcade-logo span.lit {
+  color: #0bff01;
+  opacity: 1;
+  text-shadow: 0 0 8px #09ff0125, 0 0 16px #0bff01, 0 0 32px #0bff01;
+  filter: brightness(1.2);
+}
+
+/* Responsive: achica fuentes y paddings en pantallas chicas */
+@media (max-width: 600px) {
+  .arcade-logo {
+    font-size: 1.2rem;
+  }
+  .game-card {
+    font-size: 0.7rem;
+    padding: 0.7rem 0.5rem;
+    min-width: 90px;
+    max-width: 95vw;
+  }
+  .game-title {
+    font-size: 0.9rem;
+  }
+  .arcade-header {
+    min-height: 36px;
+  }
+  .arcade-screen {
+    margin: 6px;
+    border-width: 4px;
+  }
+}

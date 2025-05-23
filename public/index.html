@@ -1,42 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ARCADE RETRO NEÓN</title>
-  <link rel="stylesheet" href="styles/arcade.css" />
-</head>
-<body>
-  <div class="arcade-cabinet">
-    <div class="arcade-header">
-      <span class="arcade-logo">ARCADE</span>
-    </div>
-    <div class="arcade-screen">
-      <div class="screen-content">
-        <button class="back-btn hidden" id="backBtn" aria-label="Volver atrás">⮌</button>
-        <div class="mode-selection">
-          <!-- Cambia esto en tu index.html -->
-<div class="mode-selection">
-  <div class="mode-card" data-mode="pve" tabindex="0">
-    <div class="mode-label">PvE</div>
-    <div class="mode-players">Players</div>
-    <div class="mode-number">1</div>
-  </div>
-  <div class="mode-card" data-mode="pvp" tabindex="0">
-    <div class="mode-label">PvP</div>
-    <div class="mode-players">Players</div>
-    <div class="mode-number">2</div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArcadeTime</title>
+    <link rel="stylesheet" href="styles/common.css" />
+    <link rel="stylesheet" href="styles/arcade.css" />
+  </head>
+  <body>
+    <div class="arcade-cabinet">
+      <div class="arcade-header">
+  <span class="arcade-logo" id="arcadeLogo">
+    <span>A</span><span>R</span><span>C</span><span>A</span><span>D</span><span>E</span>
+  </span>
 </div>
+      <div class="arcade-screen">
+        <div class="screen-content">
+          <button
+            class="back-btn hidden"
+            id="backBtn"
+            aria-label="Volver atrás"
+          >
+            ⮌
+          </button>
+          <div class="mode-selection">
+            <!-- Cambia esto en tu index.html -->
+            <div class="mode-selection">
+              <div class="mode-card" data-mode="pve" tabindex="0">
+                <div class="mode-label">PvE</div>
+                <div class="mode-players">Players</div>
+                <div class="mode-number">1</div>
+              </div>
+              <div class="mode-card" data-mode="pvp" tabindex="0">
+                <div class="mode-label">PvP</div>
+                <div class="mode-players">Players</div>
+                <div class="mode-number">2</div>
+              </div>
+            </div>
+          </div>
+          <hr id="neon-separator" class="neon-hr hidden" />
+          <div class="game-selection"></div>
         </div>
-        <hr id="neon-separator" class="neon-hr hidden">
-        <div class="game-selection"></div>
       </div>
+      <div class="arcade-controls"></div>
     </div>
-    <div class="arcade-controls"></div>
-  </div>
-  <audio id="select-sound" src="assets/sounds/select.mp3" preload="auto"></audio>
-  <audio id="neon-sound" src="assets/sounds/neon-on.mp3" preload="auto"></audio>
-  <script src="scripts/main.js"></script>
-</body>
+    <script src="scripts/main.js"></script>
+  </body>
 </html>

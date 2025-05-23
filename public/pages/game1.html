@@ -1,27 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simon Says - Arcade</title>
+    <link rel="stylesheet" href="/styles/common.css" />
     <link rel="stylesheet" href="/styles/game1.css" />
-    <link rel="stylesheet" href="/styles/arcade.css" />
-    <!-- Fuente pixel retro con soporte cirílico -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <div class="arcade-cabinet">
       <div class="arcade-header">
-        <span class="arcade-logo">SIMON SAYS</span>
+        <span class="arcade-logo" id="arcadeLogo">
+          <span>S</span><span>I</span><span>M</span><span>O</span><span>N</span>
+          <span>S</span><span>A</span><span>Y</span><span>S</span>
+        </span>
       </div>
       <div class="arcade-screen">
         <div class="screen-content" id="main-content">
           <!-- Nickname form -->
-          <div id="nickname-form" class="nickname-form">
-            <label for="nickname-input">Enter your nickname:</label>
+          <div id="nickname-form" class="nickname-form show">
+            <label for="nickname-input">Enter your nickname</label>
             <input
               type="text"
               id="nickname-input"
@@ -31,8 +29,8 @@
             />
             <button id="start-btn">Start Game</button>
           </div>
-          <!-- Game panel (hidden until start) -->
-          <div id="simon-game" class="simon-panel hidden">
+          <!-- Game panel -->
+          <div id="simon-game" class="simon-panel">
             <div class="admin-panel">
               <div class="code-display" id="codeDisplay">
                 <span id="typedCode" class="typed-code"></span>
@@ -53,7 +51,7 @@
             </div>
           </div>
           <!-- Scores list -->
-          <div id="scoreboard" class="scoreboard hidden"></div>
+          <div id="scoreboard" class="scoreboard"></div>
         </div>
       </div>
       <div class="arcade-controls"></div>
