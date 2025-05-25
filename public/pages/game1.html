@@ -11,51 +11,17 @@
     <div class="arcade-cabinet">
       <div class="arcade-header">
         <span class="arcade-logo" id="arcadeLogo">
-          <span>S</span><span>I</span><span>M</span><span>O</span><span>N</span>
-          <span>S</span><span>A</span><span>Y</span><span>S</span>
+          <span>S</span><span>I</span><span>M</span><span>O</span
+          ><span>N</span> <span>S</span><span>A</span><span>Y</span
+          ><span>S</span>
         </span>
       </div>
       <div class="arcade-screen">
         <div class="screen-content" id="main-content">
-          <!-- Nickname form -->
-          <div id="nickname-form" class="nickname-form show">
-            <label for="nickname-input">Enter your nickname</label>
-            <input
-              type="text"
-              id="nickname-input"
-              maxlength="12"
-              autocomplete="off"
-              required
-            />
-            <button id="start-btn">Start Game</button>
-          </div>
-          <!-- Game panel -->
-          <div id="simon-game" class="simon-panel">
-            <div class="admin-panel">
-              <div class="code-display" id="codeDisplay">
-                <span id="typedCode" class="typed-code"></span>
-                <span id="codeCursor" class="code-cursor">|</span>
-              </div>
-              <div class="simon-buttons-6">
-                <button class="simon-btn6" data-char="Ж"><span>Ж</span></button>
-                <button class="simon-btn6" data-char="Я"><span>Я</span></button>
-                <button class="simon-btn6" data-char="Ф"><span>Ф</span></button>
-                <button class="simon-btn6" data-char="Ю"><span>Ю</span></button>
-                <button class="simon-btn6" data-char="Б"><span>Б</span></button>
-                <button class="simon-btn6" data-char="Э"><span>Э</span></button>
-              </div>
-              <div class="score-block">
-                <div class="score-label">Score</div>
-                <div class="score-value" id="score">0</div>
-              </div>
-            </div>
-          </div>
-          <!-- Scores list -->
-          <div id="scoreboard" class="scoreboard"></div>
         </div>
       </div>
       <div class="arcade-controls"></div>
     </div>
-    <script src="/scripts/game1.js"></script>
+    <script type="module" src="/scripts/game1.js"></script>
   </body>
 </html>

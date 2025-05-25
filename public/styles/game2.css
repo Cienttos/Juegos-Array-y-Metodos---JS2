@@ -1,0 +1,110 @@
+.tictac-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 320px;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto 10px auto;
+  opacity: 0;
+  transform: scale(0.95) translateY(30px);
+  transition: opacity 0.5s, transform 0.5s;
+  pointer-events: none;
+}
+.tictac-panel.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+.tictac-board {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-rows: repeat(3, 56px);
+  gap: 6px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+.tictac-cell {
+  width: 56px;
+  height: 56px;
+  font-size: 1.3rem;
+  font-family: "Press Start 2P", monospace;
+  color: #fff;
+  background: linear-gradient(135deg, #101c10 60%, #0bff0133 100%);
+  border: 2px solid var(--neon-green);
+  border-radius: 10px;
+  box-shadow: 0 0 8px #0bff0133, 0 0 0 2px #0bff01 inset;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+.tictac-cell:hover:enabled {
+  background: #2bff0036;
+  border-color: #fff;
+  color: var(--neon-green);
+  box-shadow: 0 0 18px #0bff01;
+}
+.tictac-cell:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+.tictac-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 0;
+}
+.tictac-scores {
+  font-size: 1rem;
+  color: #fff;
+  text-shadow: 0 0 8px var(--neon-green);
+  margin-bottom: 4px;
+}
+#tictac-status {
+  font-size: 0.95rem;
+  color: var(--neon-green);
+  margin-bottom: 4px;
+}
+.play-again-btn {
+  margin: 2px 0 0 0;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  max-width: 140px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .nickname-form, .tictac-panel {
+    max-width: 98vw;
+  }
+  .tictac-board {
+    grid-template-columns: repeat(3, 18vw);
+    grid-template-rows: repeat(3, 18vw);
+    gap: 1.5vw;
+  }
+  .tictac-cell {
+    font-size: 1rem;
+    width: 18vw;
+    height: 18vw;
+    min-width: 0;
+    min-height: 0;
+  }
+  .input-group {
+    width: 38vw;
+    min-width: 70px;
+    max-width: 110px;
+  }
+}
