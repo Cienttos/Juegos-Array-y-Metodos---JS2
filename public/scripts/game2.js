@@ -1,11 +1,12 @@
 import {
-  showPanel, // Importa la función para mostrar un panel.
-  hidePanel, // Importa la función para ocultar un panel.
-  showScoreboard, // Importa la función para mostrar el tablero de puntajes.
-  sendScore, // Importa la función para enviar un puntaje al servidor.
-  fetchScores, // Importa la función para obtener puntajes del servidor.
-  animateLogo, // Importa la función para animar el logo.
-} from "./shared.js"; // Importa funciones desde el módulo 'shared.js'.
+  showPanel,
+  hidePanel,
+  showScoreboard,
+  sendScore,
+  fetchScores,
+  animateLogo,
+} from "./shared.js";
+import { verificarGanador, movimientoCpu } from "./game2Logic.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Asegura que el DOM esté completamente cargado antes de ejecutar el script.
@@ -131,7 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (modoJuego === "pve" && turnoActual === 1) {
       // Si está en modo PVE y es el turno de la CPU.
       estadoTateti.textContent = `Turn: ${nombresJugadores[1]}`; // Actualiza el estado para mostrar que es el turno de la CPU.
-      setTimeout(movimientoCpu, 600); // Llama al movimiento de la CPU después de un breve retraso.
+      setTimeout(realizarMovimientoCpu, 600); // Llama a la función para el movimiento de la CPU después de un breve retraso.
+    }
+  }
+
+  function realizarMovimientoCpu() {
+    // Nueva función para encapsular la lógica del movimiento de la CPU
+    if (!juegoEnCurso) return;
+    const indice = movimientoCpu(estadoTablero); // Llama a la función importada
+    if (indice !== null) {
+      setTimeout(() => manejarClickCelda(indice, true), 400);
     }
   }
 
@@ -150,24 +160,17 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     for (const [a, b, c] of combinacionesVictoria) {
       // Itera a través de cada combinación ganadora.
-      if (estadoTablero[a] && estadoTablero[a] === estadoTablero[b] && estadoTablero[a] === estadoTablero[c]) {
+      if (
+        estadoTablero[a] &&
+        estadoTablero[a] === estadoTablero[b] &&
+        estadoTablero[a] === estadoTablero[c]
+      ) {
         // Comprueba si las tres celdas en una combinación no están vacías y tienen la misma marca.
         return estadoTablero[a]; // Devuelve la marca del jugador ganador ("X" u "O").
       }
     }
     if (estadoTablero.every((celda) => celda)) return "draw"; // Comprueba si todas las celdas están llenas (indicando un empate).
     return null; // Devuelve null si aún no hay ganador y no hay empate.
-  }
-
-  function movimientoCpu() {
-    // Define la función para el movimiento de la CPU en modo PVE.
-    if (!juegoEnCurso) return; // Si el juego no está activo, sale de la función.
-    const celdasVacias = estadoTablero.map((valor, indice) => (valor ? null : indice)).filter((valor) => valor !== null); // Obtiene un array de índices de celdas vacías.
-    if (celdasVacias.length) {
-      // Si hay celdas vacías.
-      const indiceAleatorio = celdasVacias[Math.floor(Math.random() * celdasVacias.length)]; // Selecciona una celda vacía al azar.
-      setTimeout(() => manejarClickCelda(indiceAleatorio, true), 400); // Llama a 'manejarClickCelda' para el movimiento de la CPU después de un retraso.
-    }
   }
 
   function manejarClickCelda(indice, esCpu = false) {
@@ -200,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Actualiza el mensaje de estado para mostrar de quién es el turno.
         modoJuego === "pve" && turnoActual === 1 ? "" : "" // No hay texto extra para el turno de la CPU.
       }`;
-      if (modoJuego === "pve" && turnoActual === 1) movimientoCpu(); // Si está en modo PVE y es el turno de la CPU, activa el movimiento de la CPU.
+      if (modoJuego === "pve" && turnoActual === 1) realizarMovimientoCpu(); // Modificado para usar la nueva función
     }
   }
 
@@ -222,7 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return; // Sale de la función.
     }
     nombresJugadores[0] = entrada1.value.trim() || "Player 1"; // Establece el nombre del Jugador 1, por defecto "Player 1" si la entrada está vacía.
-    nombresJugadores[1] = modoJuego === "pvp" ? entrada2.value.trim() || "Player 2" : "CPU"; // Establece el nombre del Jugador 2 (o "CPU" en modo PVE).
+    nombresJugadores[1] =
+      modoJuego === "pvp" ? entrada2.value.trim() || "Player 2" : "CPU"; // Establece el nombre del Jugador 2 (o "CPU" en modo PVE).
     puntajesJuego = [0, 0]; // Reinicia los puntajes para un nuevo juego.
     puntajeP1.textContent = puntajesJuego[0]; // Actualiza la visualización del puntaje del Jugador 1.
     puntajeP2.textContent = puntajesJuego[1]; // Actualiza la visualización del puntaje del Jugador 2.
@@ -267,7 +271,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchScores(
           // Después de enviar, obtiene los puntajes actualizados para el juego 2.
           "/data/game2", // Endpoint para los puntajes del juego 2.
-          (datos) => showScoreboard(tablaPuntajes, datos, ganadorFinal, puntajeGanador), // Callback para mostrar el tablero de puntajes.
+          (datos) =>
+            showScoreboard(tablaPuntajes, datos, ganadorFinal, puntajeGanador), // Callback para mostrar el tablero de puntajes.
           ganadorFinal, // Nombre del ganador.
           puntajeGanador // Puntaje del ganador.
         );

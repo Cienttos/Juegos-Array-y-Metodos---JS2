@@ -6,6 +6,7 @@ import {
   fetchScores, // Importa la función para obtener puntajes del servidor.
   animateLogo, // Importa la función para animar el logo.
 } from "./shared.js"; // Importa funciones desde el módulo 'shared.js'.
+import { determinarGanador, obtenerEleccionCpu } from "./game3Logic.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Asegura que el DOM (Document Object Model) esté completamente cargado antes de ejecutar el script.
@@ -68,7 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Panel 2: Juego (solo se renderiza después de establecer los nombres)
   let juegoPiedraPapelTijera = null; // Variable para mantener la referencia al panel del juego, inicialmente nula.
-  let tituloPpt, estadoPpt, resultadoPpt, puntajeP1Elemento, puntajeP2Elemento, botonSiguienteRonda, botonTerminarJuego, cartasPpt; // Declara variables para los elementos del juego.
+  let tituloPpt,
+    estadoPpt,
+    resultadoPpt,
+    puntajeP1Elemento,
+    puntajeP2Elemento,
+    botonSiguienteRonda,
+    botonTerminarJuego,
+    cartasPpt; // Declara variables para los elementos del juego.
 
   function renderizarPanelJuego() {
     // Define una función para renderizar el panel del juego dinámicamente.
@@ -99,9 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
     resultadoPpt = juegoPiedraPapelTijera.querySelector("#rps-result"); // Obtiene una referencia a la visualización del resultado de la ronda.
     puntajeP1Elemento = juegoPiedraPapelTijera.querySelector("#score-p1"); // Obtiene una referencia a la visualización del puntaje del Jugador 1.
     puntajeP2Elemento = juegoPiedraPapelTijera.querySelector("#score-p2"); // Obtiene una referencia a la visualización del puntaje del Jugador 2.
-    botonSiguienteRonda = juegoPiedraPapelTijera.querySelector("#next-round-btn"); // Obtiene una referencia al botón "Next Round".
+    botonSiguienteRonda =
+      juegoPiedraPapelTijera.querySelector("#next-round-btn"); // Obtiene una referencia al botón "Next Round".
     botonTerminarJuego = juegoPiedraPapelTijera.querySelector("#end-game-btn"); // Obtiene una referencia al botón "End Game".
-    cartasPpt = Array.from(juegoPiedraPapelTijera.querySelectorAll(".rps-card")); // Obtiene una colección de todos los botones de elección de Piedra, Papel o Tijera y los convierte en un array.
+    cartasPpt = Array.from(
+      juegoPiedraPapelTijera.querySelectorAll(".rps-card")
+    ); // Obtiene una colección de todos los botones de elección de Piedra, Papel o Tijera y los convierte en un array.
 
     cartasPpt.forEach((boton) => {
       // Itera sobre cada botón de elección de Piedra, Papel o Tijera.
@@ -110,7 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modoJuego === "pve" && eleccionesJugadores[0] === null) {
           // Si está en modo PVE y el Jugador 1 aún no ha hecho una elección.
           manejarEleccion(boton.dataset.choice); // Maneja la elección del jugador.
-        } else if (modoJuego === "pvp" && eleccionesJugadores[turnoActual] === null) {
+        } else if (
+          modoJuego === "pvp" &&
+          eleccionesJugadores[turnoActual] === null
+        ) {
           // Si está en modo PVP y el jugador actual aún no ha hecho una elección.
           manejarEleccion(boton.dataset.choice); // Maneja la elección del jugador actual.
         }
@@ -128,10 +142,18 @@ document.addEventListener("DOMContentLoaded", () => {
       hidePanel(juegoPiedraPapelTijera); // Oculta el panel del juego de Piedra, Papel o Tijera.
       let indiceGanador =
         // Determina el índice del ganador general basándose en los puntajes acumulados.
-        puntajesJuego[0] > puntajesJuego[1] ? 0 : puntajesJuego[1] > puntajesJuego[0] ? 1 : -1; // -1 si es un empate.
+        puntajesJuego[0] > puntajesJuego[1]
+          ? 0
+          : puntajesJuego[1] > puntajesJuego[0]
+          ? 1
+          : -1; // -1 si es un empate.
       if (indiceGanador >= 0) {
         // Si hay un ganador (no es un empate).
-        sendScore("/data/game3", nombresJugadores[indiceGanador], puntajesJuego[indiceGanador]).then(
+        sendScore(
+          "/data/game3",
+          nombresJugadores[indiceGanador],
+          puntajesJuego[indiceGanador]
+        ).then(
           // Envía el puntaje del ganador al servidor para el juego 3.
           () => {
             // Después de enviar el puntaje.
@@ -183,7 +205,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modoJuego === "pve" && eleccionesJugadores[0] === null) {
           // Si está en modo PVE y el Jugador 1 aún no ha hecho una elección.
           manejarEleccion(boton.dataset.choice); // Maneja la elección del jugador.
-        } else if (modoJuego === "pvp" && eleccionesJugadores[turnoActual] === null) {
+        } else if (
+          modoJuego === "pvp" &&
+          eleccionesJugadores[turnoActual] === null
+        ) {
           // Si está en modo PVP y el jugador actual aún no ha hecho una elección.
           manejarEleccion(boton.dataset.choice); // Maneja la elección del jugador actual.
         }
@@ -202,7 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Oculta los botones durante el juego
-    const botonesAccion = juegoPiedraPapelTijera.querySelector(".game-action-btns"); // Obtiene una referencia al contenedor de los botones de acción.
+    const botonesAccion =
+      juegoPiedraPapelTijera.querySelector(".game-action-btns"); // Obtiene una referencia al contenedor de los botones de acción.
     botonesAccion.style.display = "none"; // Oculta los botones de acción.
   }
 
@@ -212,8 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Si está en modo PVE.
       eleccionesJugadores[0] = eleccion; // Almacena la elección del Jugador 1.
       // CPU aleatoria
-      const eleccionesCpu = ["rock", "paper", "scissors"]; // Define las posibles elecciones para la CPU.
-      eleccionesJugadores[1] = eleccionesCpu[Math.floor(Math.random() * 3)]; // La CPU hace una elección aleatoria.
+      eleccionesJugadores[1] = obtenerEleccionCpu(); // Usa la función importada
       setTimeout(() => {
         // Establece un timeout para mostrar el resultado después de un breve retraso.
         mostrarResultado(); // Llama a la función para mostrar el resultado de la ronda.
@@ -246,17 +271,14 @@ document.addEventListener("DOMContentLoaded", () => {
     `; // Renderiza las cartas de resultado.
 
     // Determina el resultado
+    const resultado = determinarGanador(eleccionP1, eleccionP2); // Usa la función importada
     let ganadorRonda = ""; // Variable para almacenar el nombre del ganador de la ronda.
-    if (eleccionP1 === eleccionP2) {
+    if (resultado === "draw") {
       // Si ambos jugadores eligieron lo mismo.
       estadoPpt.textContent = "Draw"; // Establece el texto de estado en "Draw".
       resultadoPpt.textContent = "Nobody wins!"; // Muestra "Nobody wins!".
-    } else if (
+    } else if (resultado === "player1") {
       // Comprueba las condiciones de victoria del Jugador 1.
-      (eleccionP1 === "rock" && eleccionP2 === "scissors") || // Piedra vence a Tijera.
-      (eleccionP1 === "paper" && eleccionP2 === "rock") || // Papel vence a Piedra.
-      (eleccionP1 === "scissors" && eleccionP2 === "paper") // Tijera vence a Papel.
-    ) {
       puntajesJuego[0]++; // Incrementa el puntaje del Jugador 1.
       ganadorRonda = nombresJugadores[0]; // Establece el ganador como el nombre del Jugador 1.
       estadoPpt.textContent = "Winner"; // Establece el texto de estado en "Winner".
@@ -274,7 +296,8 @@ document.addEventListener("DOMContentLoaded", () => {
     puntajeP2Elemento.textContent = puntajesJuego[1]; // Actualiza la visualización del puntaje del Jugador 2 (o CPU).
 
     // Muestra los botones al final
-    const botonesAccion = juegoPiedraPapelTijera.querySelector(".game-action-btns"); // Obtiene una referencia al contenedor de los botones de acción.
+    const botonesAccion =
+      juegoPiedraPapelTijera.querySelector(".game-action-btns"); // Obtiene una referencia al contenedor de los botones de acción.
     botonesAccion.style.display = "flex"; // Muestra los botones de acción (Next Round, End Game).
   }
 
@@ -286,7 +309,10 @@ document.addEventListener("DOMContentLoaded", () => {
   botonInicio.addEventListener("click", (evento) => {
     // Agrega un listener de evento de clic al botón "Start Game".
     evento.preventDefault(); // Previene el comportamiento predeterminado de envío del formulario (recarga de la página).
-    if (!entrada1.value.trim() || (modoJuego === "pvp" && !entrada2.value.trim())) {
+    if (
+      !entrada1.value.trim() ||
+      (modoJuego === "pvp" && !entrada2.value.trim())
+    ) {
       // Comprueba si las entradas de nickname están vacías, especialmente para el modo PVP.
       formularioNickname.classList.add("shake"); // Agrega una clase "shake" para retroalimentación visual en caso de entrada inválida.
       setTimeout(() => formularioNickname.classList.remove("shake"), 400); // Elimina la clase "shake" después de un breve retraso.

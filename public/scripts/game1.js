@@ -1,11 +1,16 @@
 import {
-  showPanel, // Importa la función para mostrar un panel.
-  hidePanel, // Importa la función para ocultar un panel.
-  showScoreboard, // Importa la función para mostrar el marcador de puntajes.
-  sendScore, // Importa la función para enviar un puntaje al servidor.
-  fetchScores, // Importa la función para obtener puntajes del servidor.
-  animateLogo, // Importa la función para animar el logo.
-} from "./shared.js"; // Importa funciones desde el archivo 'shared.js'.
+  showPanel,
+  hidePanel,
+  showScoreboard,
+  sendScore,
+  fetchScores,
+  animateLogo,
+} from "./shared.js";
+import {
+  iniciarSimon,
+  siguienteRonda,
+  verificarEntradaUsuario,
+} from "./game1Logic.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Espera a que el DOM esté completamente cargado antes de ejecutar el script.
@@ -64,12 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const simonBtns = Array.from(document.querySelectorAll(".simon-btn")); // Obtiene una colección de todos los botones de Simon y la convierte a un array.
   const scoreSpan = document.getElementById("score"); // Obtiene la referencia al span donde se muestra el puntaje.
 
-  const CARACTERES = ["Ж", "Я", "Ф", "Ю", "Б", "Э"]; // Define los caracteres posibles para la secuencia del juego.
-  let secuencia = []; // Array que almacenará la secuencia de caracteres del juego.
-  let secuenciaUsuario = []; // Array que almacenará la secuencia de caracteres ingresada por el usuario.
-  let puntaje = 0; // Variable para almacenar el puntaje actual del jugador.
-  let nickname = ""; // Variable para almacenar el nickname del jugador.
-  let aceptandoEntrada = false; // Booleano que indica si el juego está esperando la entrada del usuario.
+  let secuencia = [];
+  let secuenciaUsuario = [];
+  let puntaje = 0;
+  let nickname = "";
+  let aceptandoEntrada = false;
 
   // Mostrar nickname form al inicio
   function mostrarPanelNickname() {
@@ -94,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hidePanel(formularioNickname); // Oculta el panel del formulario de nickname.
     showPanel(juegoSimon); // Muestra el panel del juego Simon.
     hidePanel(tablaPuntajes); // Oculta el panel del marcador de puntajes.
-    iniciarSimon(); // Llama a la función para iniciar el juego Simon.
+    iniciarSimonJuego(); // Llama a la función iniciarSimonJuego
   });
 
   nicknameInput.addEventListener("keydown", (e) => {
@@ -103,21 +107,65 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Simon Dice lógica
-  function iniciarSimon() {
-    // Define la función para iniciar el juego Simon.
-    secuencia = []; // Reinicia la secuencia del juego.
-    secuenciaUsuario = []; // Reinicia la secuencia del usuario.
-    puntaje = 0; // Reinicia el puntaje.
-    scoreSpan.textContent = puntaje; // Actualiza el texto del span del puntaje.
-    limpiarCodigo(); // Limpia el código mostrado en pantalla.
-    siguienteRonda(); // Inicia la siguiente ronda del juego.
+  function iniciarSimonJuego() {
+    const gameState = iniciarSimon();
+    secuencia = gameState.secuencia;
+    secuenciaUsuario = gameState.secuenciaUsuario;
+    puntaje = gameState.puntaje;
+    aceptandoEntrada = gameState.aceptandoEntrada;
+    scoreSpan.textContent = puntaje;
+    limpiarCodigo();
+    siguienteRondaJuego();
   }
 
-  function siguienteRonda() {
-    // Define la función para avanzar a la siguiente ronda.
-    secuenciaUsuario = []; // Reinicia la secuencia del usuario para la nueva ronda.
-    secuencia.push(CARACTERES[Math.floor(Math.random() * CARACTERES.length)]); // Agrega un nuevo carácter aleatorio a la secuencia del juego.
-    setTimeout(() => mostrarSecuencia(0), 600); // Llama a 'mostrarSecuencia' después de un breve retraso para mostrar la secuencia.
+  function siguienteRondaJuego() {
+    secuenciaUsuario = [];
+    secuencia = siguienteRonda(secuencia);
+    setTimeout(() => mostrarSecuencia(0), 600);
+  }
+
+  function verificarEntradaUsuarioJuego() {
+    const resultado = verificarEntradaUsuario(secuenciaUsuario, secuencia);
+    if (resultado === false) {
+      terminarJuego();
+      return;
+    }
+    if (resultado === true) {
+      puntaje++;
+      scoreSpan.textContent = puntaje;
+      aceptandoEntrada = false;
+      setTimeout(() => {
+        limpiarCodigo();
+        siguienteRondaJuego();
+      }, 700);
+    }
+  }
+
+  simonBtns.forEach((btn) => {
+    // Itera sobre cada botón de Simon.
+    btn.addEventListener("click", () => {
+      // Agrega un event listener para el evento 'click' a cada botón.
+      if (!aceptandoEntrada || !btn.classList.contains("enabled")) return; // Si no se está aceptando entrada o el botón no está habilitado, sale de la función.
+      const caracter = btn.dataset.char; // Obtiene el carácter asociado al botón.
+      btn.classList.add("active"); // Añade la clase 'active' al botón para resaltarlo.
+      setTimeout(() => btn.classList.remove("active"), 180); // Remueve la clase 'active' después de un breve tiempo.
+      secuenciaUsuario.push(caracter); // Agrega el carácter a la secuencia ingresada por el usuario.
+      escribirCaracter(caracter); // Muestra el carácter en el display del código.
+      verificarEntradaUsuarioJuego();
+    });
+  });
+
+  function escribirCaracter(char) {
+    // Define la función para mostrar un carácter en el display de código.
+    codeDisplay.textContent += char; // Agrega el carácter al contenido de texto del display.
+    codeDisplay.classList.remove("typed-code"); // Remueve la clase 'typed-code' para reiniciar la animación.
+    void codeDisplay.offsetWidth; // Fuerza un reflow para que la animación se reinicie.
+    codeDisplay.classList.add("typed-code"); // Vuelve a añadir la clase 'typed-code' para aplicar la animación.
+  }
+
+  function limpiarCodigo() {
+    // Define la función para limpiar el display de código.
+    codeDisplay.textContent = ""; // Establece el contenido de texto del display como vacío.
   }
 
   function mostrarSecuencia(indice) {
@@ -143,54 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.classList.remove("active"); // Remueve la clase 'active' del botón.
       setTimeout(() => mostrarSecuencia(indice + 1), 350); // Llama recursivamente a 'mostrarSecuencia' para el siguiente carácter después de un breve retraso.
     }, 700); // El botón permanece activo por 700ms.
-  }
-
-  simonBtns.forEach((btn) => {
-    // Itera sobre cada botón de Simon.
-    btn.addEventListener("click", () => {
-      // Agrega un event listener para el evento 'click' a cada botón.
-      if (!aceptandoEntrada || !btn.classList.contains("enabled")) return; // Si no se está aceptando entrada o el botón no está habilitado, sale de la función.
-      const caracter = btn.dataset.char; // Obtiene el carácter asociado al botón.
-      btn.classList.add("active"); // Añade la clase 'active' al botón para resaltarlo.
-      setTimeout(() => btn.classList.remove("active"), 180); // Remueve la clase 'active' después de un breve tiempo.
-      secuenciaUsuario.push(caracter); // Agrega el carácter a la secuencia ingresada por el usuario.
-      escribirCaracter(caracter); // Muestra el carácter en el display del código.
-      verificarEntradaUsuario(); // Verifica si la entrada del usuario es correcta.
-    });
-  });
-
-  function escribirCaracter(char) {
-    // Define la función para mostrar un carácter en el display de código.
-    codeDisplay.textContent += char; // Agrega el carácter al contenido de texto del display.
-    codeDisplay.classList.remove("typed-code"); // Remueve la clase 'typed-code' para reiniciar la animación.
-    void codeDisplay.offsetWidth; // Fuerza un reflow para que la animación se reinicie.
-    codeDisplay.classList.add("typed-code"); // Vuelve a añadir la clase 'typed-code' para aplicar la animación.
-  }
-
-  function limpiarCodigo() {
-    // Define la función para limpiar el display de código.
-    codeDisplay.textContent = ""; // Establece el contenido de texto del display como vacío.
-  }
-
-  function verificarEntradaUsuario() {
-    // Define la función para verificar la entrada del usuario.
-    const idx = secuenciaUsuario.length - 1; // Obtiene el índice del último carácter ingresado por el usuario.
-    if (secuenciaUsuario[idx] !== secuencia[idx]) {
-      // Si el último carácter ingresado no coincide con el de la secuencia del juego.
-      terminarJuego(); // Llama a la función para terminar el juego.
-      return; // Sale de la función.
-    }
-    if (secuenciaUsuario.length === secuencia.length) {
-      // Si la longitud de la secuencia del usuario coincide con la del juego (ronda completada).
-      puntaje++; // Incrementa el puntaje.
-      scoreSpan.textContent = puntaje; // Actualiza el texto del span del puntaje.
-      aceptandoEntrada = false; // Deshabilita la aceptación de entrada del usuario.
-      setTimeout(() => {
-        // Establece un temporizador para limpiar el código e iniciar la siguiente ronda.
-        limpiarCodigo(); // Limpia el código mostrado.
-        siguienteRonda(); // Llama a la función para iniciar la siguiente ronda.
-      }, 700); // Espera 700ms antes de proceder.
-    }
   }
 
   function terminarJuego() {
