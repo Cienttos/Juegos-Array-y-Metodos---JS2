@@ -240,9 +240,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Muestra las cartas de resultado
     const contenedorCartas = juegoPiedraPapelTijera.querySelector("#rps-cards"); // Obtiene una referencia al contenedor de las cartas de Piedra, Papel o Tijera.
     contenedorCartas.innerHTML = `
-      <div class="rps-card result-card">${capitalizar(eleccionP1)}</div> // Muestra la elección capitalizada del Jugador 1.
-      <div class="rps-card vs-card">VS</div> // Muestra "VS".
-      <div class="rps-card result-card">${capitalizar(eleccionP2)}</div> // Muestra la elección capitalizada del Jugador 2 (o CPU).
+      <div class="rps-card result-card">${capitalizar(eleccionP1)}</div> 
+      <div class="rps-card vs-card">Vs</div>
+      <div class="rps-card result-card">${capitalizar(eleccionP2)}</div> 
     `; // Renderiza las cartas de resultado.
 
     // Determina el resultado
