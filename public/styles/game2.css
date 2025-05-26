@@ -81,13 +81,11 @@
   width: 100%;
   box-sizing: border-box;
 }
-.hidden {
-  display: none !important;
-}
 
 /* Responsive */
 @media (max-width: 600px) {
-  .nickname-form, .tictac-panel {
+  .nickname-form,
+  .tictac-panel {
     max-width: 98vw;
   }
   .tictac-board {

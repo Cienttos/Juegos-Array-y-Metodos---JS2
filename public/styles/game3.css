@@ -1,0 +1,180 @@
+.rps-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  min-height: 450px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 10px auto;
+  padding: 20px;
+}
+
+/* Título principal */
+.rps-title {
+  color: var(--neon-green);
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px var(--neon-green);
+}
+
+/* Puntuación arriba */
+.rps-scores {
+  color: #fff;
+  font-size: 1.4rem;
+  text-align: center;
+  letter-spacing: 3px;
+  font-family: inherit;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Cartas más grandes sin iconos */
+.rps-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.rps-card {
+  width: 110px;
+  height: 140px;
+  background: linear-gradient(135deg, #101c10 60%, #0bff0133 100%);
+  border: 2px solid var(--neon-green);
+  border-radius: 20px;
+  box-shadow: 0 0 14px #0bff01cc, 0 0 0 2px #0bff01 inset;
+  color: #fff;
+  font-family: "VT323", "Fira Mono", "Press Start 2P", monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rps-card:hover:not(:disabled):not(.result-card):not(.vs-card) {
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px #0bff01cc, 0 0 0 3px #0bff01 inset;
+}
+
+.rps-card.selected {
+  background: linear-gradient(135deg, #0bff01 80%, #baffc0 100%);
+  color: #181818;
+  border-color: #fff;
+  box-shadow: 0 0 32px #0bff01, 0 0 16px #fff, 0 0 0 4px #fff inset;
+  transform: scale(1.05);
+}
+
+.rps-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Cartas de resultado */
+.result-card {
+  background: linear-gradient(135deg, #2768233f 60%, #09ff0144 100%);
+  border-color: #0bff01;
+  color: #fff;
+  cursor: default;
+  box-shadow: 0 0 14px #0bff01aa, 0 0 0 2px #0bff01 inset;
+}
+
+.vs-card {
+  background: linear-gradient(135deg, #3e8a3e28 60%, #b0ffb088 100%);
+  border-color: #b0ffb0;
+  color: #fff;
+  cursor: default;
+  font-size: 1.3rem;
+  font-weight: bold;
+  box-shadow: 0 0 14px #b0ffb0, 0 0 0 2px #b0ffb0 inset;
+}
+
+/* Estado del juego (más simple) */
+.rps-status {
+  color: var(--neon-green);
+  font-size: 1.3rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px var(--neon-green);
+}
+
+/* Resultado más simple */
+.rps-result {
+  color: #fff;
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .rps-panel {
+    max-width: 98vw;
+    padding: 15px;
+    gap: 20px;
+  }
+  
+  .rps-title {
+    font-size: 1.3rem;
+  }
+  
+  .rps-scores {
+    font-size: 1.2rem;
+    padding: 10px 16px;
+  }
+  
+  .rps-cards {
+    gap: 4vw;
+  }
+  
+  .rps-card {
+    width: 25vw;
+    height: 36vw;
+    min-width: 85px;
+    min-height: 110px;
+    font-size: 1rem;
+  }
+  
+  .vs-card {
+    font-size: 1.1rem;
+  }
+  
+  .rps-status, .rps-result {
+    font-size: 1.1rem;
+  }
+  
+}
+
+/* Agrupar estado + resultado */
+.rps-status-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: -6px;
+  margin-bottom: 6px;
+}
+
+/* Reducir el texto de las cartas de resultado */
+.rps-card,
+.result-card {
+  font-size: 0.7rem !important; /* antes 1.1rem */
+}

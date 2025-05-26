@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
           key: "game3",
           name: "Rock Paper Scissors",
           desc: "Classic hand game. Beat the computer!",
-          url: "/pages/game3.html",
+          url: "/pages/game3.html?mode=pve",
         },
       ],
       pvp: [
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
           key: "game3",
           name: "Rock Paper Scissors",
           desc: "Challenge your friend in this classic game.",
-          url: "/pages/game3.html",
+          url: "/pages/game3.html?mode=pvp",
         },
       ],
     };

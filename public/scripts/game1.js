@@ -31,13 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
         <span id="typedCode" class="typed-code"></span>
         <span id="codeCursor" class="code-cursor">|</span>
       </div>
-      <div class="simon-buttons-6">
-        <button class="simon-btn6" data-char="Ж"><span>Ж</span></button>
-        <button class="simon-btn6" data-char="Я"><span>Я</span></button>
-        <button class="simon-btn6" data-char="Ф"><span>Ф</span></button>
-        <button class="simon-btn6" data-char="Ю"><span>Ю</span></button>
-        <button class="simon-btn6" data-char="Б"><span>Б</span></button>
-        <button class="simon-btn6" data-char="Э"><span>Э</span></button>
+      <div class="simon-buttons">
+        <button class="simon-btn" data-char="Ж"><span>Ж</span></button>
+        <button class="simon-btn" data-char="Я"><span>Я</span></button>
+        <button class="simon-btn" data-char="Ф"><span>Ф</span></button>
+        <button class="simon-btn" data-char="Ю"><span>Ю</span></button>
+        <button class="simon-btn" data-char="Б"><span>Б</span></button>
+        <button class="simon-btn" data-char="Э"><span>Э</span></button>
       </div>
       <div class="score-block">
         <div class="score-label">Score</div>

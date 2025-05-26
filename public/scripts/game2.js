@@ -51,8 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="tictac-scores">
         <span id="score-p1">0</span> - <span id="score-p2">0</span>
       </div>
-      <button id="next-round-btn" class="play-again-btn" style="display: none">Next Round</button>
-      <button id="end-game-btn" class="play-again-btn">End Game</button>
+      <div class="game-action-btns">
+        <button id="next-round-btn" class="play-again-btn" style="display: none">Next Round</button>
+        <button id="end-game-btn" class="play-again-btn">End Game</button>
+      </div>
     </div>
   `;
 
