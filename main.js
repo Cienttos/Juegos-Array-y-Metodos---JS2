@@ -3,8 +3,14 @@ const path = require('path');
 const bodyParser = require('express').urlencoded({ extended: true });
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'public')));
+// Since Vercel handles static files from 'public' directly,
+// you might not strictly need this `express.static` for hosted deployments
+// if your public folder is configured correctly in vercel.json or by default.
+// However, it's good to keep for local development.
+app.use(express.static(path.join(__dirname, '../public'))); // Adjust path for public folder
+
 app.use(bodyParser);
+app.use(express.json()); // Add this for parsing JSON bodies if you intend to send JSON
 
 const scoresGame1 = [];
 const scoresGame2 = [];
@@ -32,10 +38,19 @@ app.post('/data/:game', (req, res) => {
   res.json({ success: true });
 });
 
+// The root route for your serverless function might need to be `/api`
+// if your rewrites are set up that way, or just `/` if you want it to handle all unhandled paths.
+// For static file serving, remove this if you're relying on Vercel's static file serving.
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
-app.listen(3000, () => {
-  console.log('✅ Servidor en http://localhost:3000');
-});
+
+// Export the app for Vercel
+module.exports = app;
+
+// Remove the app.listen part for Vercel deployment as Vercel handles the server.
+// Keep it for local development if you have a separate file for running the server locally.
+// app.listen(3000, () => {
+//   console.log('✅ Servidor en http://localhost:3000');
+// });
