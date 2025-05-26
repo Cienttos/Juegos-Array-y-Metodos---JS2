@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("start-btn");
   const codeDisplay = document.getElementById("typedCode");
   const codeCursor = document.getElementById("codeCursor");
-  const simonBtns = Array.from(document.querySelectorAll(".simon-btn6"));
+  const simonBtns = Array.from(document.querySelectorAll(".simon-btn"));
   const scoreSpan = document.getElementById("score");
 
   const CHARS = ["Ж", "Я", "Ф", "Ю", "Б", "Э"];
