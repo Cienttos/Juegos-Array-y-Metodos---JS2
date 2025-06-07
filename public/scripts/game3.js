@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (indiceGanador >= 0) {
         // Si hay un ganador (no es un empate).
         sendScore(
-          "/data/game3",
+          "https://arcadetime-one.vercel.app/data/game3",
           nombresJugadores[indiceGanador],
           puntajesJuego[indiceGanador]
         ).then(
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Después de enviar el puntaje.
             fetchScores(
               // Obtiene los puntajes actualizados para el juego 3.
-              "/data/game3", // Endpoint para los puntajes del juego 3.
+              "https://arcadetime-one.vercel.app/data/game3", // Endpoint para los puntajes del juego 3.
               (datos) =>
                 showScoreboard(
                   // Función de callback para mostrar el tablero de puntajes.

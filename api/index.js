@@ -1,8 +1,13 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors'); // 👈 Importa cors
 const bodyParser = require('express').urlencoded({ extended: true });
 
 const app = express();
+
+// 👇 Habilita CORS para todos los orígenes
+app.use(cors());
+
 // Ajusta la ruta para apuntar a la carpeta 'public' que está un nivel arriba
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser);
@@ -26,29 +31,26 @@ app.get('/data/:game', (req, res) => {
 app.post('/data/:game', (req, res) => {
   const { game } = req.params;
   const { nickname, score } = req.body;
-  // Verifica si se proporcionaron el nickname y el puntaje
   if (!nickname || !score) {
     return res.status(400).json({ error: 'Faltan datos' });
   }
-  // Crea una entrada de puntaje con el nickname y el puntaje convertido a número
   const entrada = { nickname, score: Number(score) };
-  // Agrega la entrada al array de puntajes correspondiente al juego
   if (game === 'game1') puntajesJuego1.push(entrada);
   else if (game === 'game2') puntajesJuego2.push(entrada);
   else if (game === 'game3') puntajesJuego3.push(entrada);
-  else return res.status(404).json({ error: 'Juego no encontrado' }); // Si el juego no se encuentra
-  res.json({ success: true }); // Responde con éxito
+  else return res.status(404).json({ error: 'Juego no encontrado' });
+  res.json({ success: true });
 });
 
-// Ajusta la ruta para el index.html si es necesario
+// Ruta para servir el index.html si es necesario
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
-// ¡CRUCIAL! Exporta la aplicación para Vercel
+// Exporta la app para Vercel
 module.exports = app;
 
-// Inicia el servidor en el puerto 3000
+// Solo necesario si ejecutás localmente
 app.listen(3000, () => {
   console.log('✅ Servidor en http://localhost:3000');
 });

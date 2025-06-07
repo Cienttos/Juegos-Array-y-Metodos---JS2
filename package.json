@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "3juegos": "file:",
+    "cors": "^2.8.5",
     "express": "^5.1.0"
   }
 }

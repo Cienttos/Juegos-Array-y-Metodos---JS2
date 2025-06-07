@@ -266,11 +266,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let puntajeGanador = Math.max(puntajesJuego[0], puntajesJuego[1]); // Obtiene el puntaje más alto.
     if (ganadorFinal !== "Draw" && puntajeGanador > 0) {
       // Si hay un ganador claro y un puntaje positivo.
-      sendScore("/data/game2", ganadorFinal, puntajeGanador).then(() => {
+      sendScore("https://arcadetime-one.vercel.app/data/game2", ganadorFinal, puntajeGanador).then(() => {
         // Envía el puntaje del ganador al servidor para el juego 2.
         fetchScores(
           // Después de enviar, obtiene los puntajes actualizados para el juego 2.
-          "/data/game2", // Endpoint para los puntajes del juego 2.
+          "https://arcadetime-one.vercel.app/data/game2", // Endpoint para los puntajes del juego 2.
           (datos) =>
             showScoreboard(tablaPuntajes, datos, ganadorFinal, puntajeGanador), // Callback para mostrar el tablero de puntajes.
           ganadorFinal, // Nombre del ganador.

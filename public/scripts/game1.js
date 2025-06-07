@@ -196,11 +196,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function terminarJuego() {
     // Define la función para terminar el juego.
     hidePanel(juegoSimon); // Oculta el panel del juego Simon.
-    sendScore("/data/game1", nickname, puntaje).then(() => {
+    sendScore("https://arcadetime-one.vercel.app/data/game1", nickname, puntaje).then(() => {
       // Envía el puntaje del jugador al servidor.
       fetchScores(
         // Después de enviar el puntaje, obtiene los puntajes actualizados.
-        "/data/game1", // Endpoint para obtener los puntajes del juego 1.
+        "https://arcadetime-one.vercel.app/data/game1", // Endpoint para obtener los puntajes del juego 1.
         (data) => showScoreboard(tablaPuntajes, data, nickname, puntaje), // Callback para mostrar el marcador de puntajes con los datos obtenidos.
         nickname, // Pasa el nickname del jugador.
         puntaje // Pasa el puntaje del jugador.
